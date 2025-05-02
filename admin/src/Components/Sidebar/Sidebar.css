@@ -3,8 +3,7 @@
     height: 100vh;
     background-color: #fdfdfd;
     border-right: 1px solid #e0e0e0;
-    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.03);
-    padding-top: 80px; /* për të mos mbuluar navbarin */
+    padding-top: 80px; 
     position: fixed;
     top: 0;
     left: 0;

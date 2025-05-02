@@ -1,0 +1,151 @@
+.add-product {
+    padding: 100px 30px 30px 230px;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+    background: linear-gradient(to bottom right, #fff0f5, #ffe6f8);
+    min-height: 100vh;
+    font-family: 'Segoe UI', sans-serif;
+    transition: all 0.3s ease;
+    box-sizing: border-box;
+  }
+  
+  @media (max-width: 800px) {
+    .add-product {
+      padding: 140px 20px 20px 20px;
+    }
+  }
+  
+  .addproduct-itemfield {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    animation: fadeIn 0.6s ease-in;
+  }
+  
+  .addproduct-itemfield p {
+    font-weight: 600;
+    margin: 0;
+    color: #cc2b84;
+  }
+  
+  .addproduct-itemfield input,
+  .addproduct-selector {
+    padding: 12px 14px;
+    font-size: 16px;
+    border-radius: 10px;
+    border: 1.5px solid #f3b4d3;
+    background-color: #fff;
+    transition: all 0.3s ease;
+    box-shadow: 0 0 0 transparent;
+  }
+  
+  .addproduct-itemfield input:focus,
+  .addproduct-selector:focus {
+    border-color: #e90f99;
+    box-shadow: 0 0 5px #ffd6eb;
+    outline: none;
+  }
+  
+  .addproduct-price {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+  }
+  
+  .add-product-selector {
+    width: 220px;
+    background-color: #fff6fb;
+  }
+  
+  .addproduct-thumnail-img {
+    width: 130px;
+    height: 130px;
+    object-fit: contain;
+    cursor: pointer;
+    border: 2px dashed #ffb6d5;
+    border-radius: 12px;
+    padding: 10px;
+    background-color: #fff;
+    transition: transform 0.2s ease;
+  }
+  
+  .addproduct-thumnail-img:hover {
+    transform: scale(1.05);
+    border-color: #e90f99;
+  }
+  
+  .addproduct-btn {
+    width: 160px;
+    padding: 14px;
+    background-color: #e90f99;
+    color: white;
+    font-weight: 600;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    align-self: flex-start;
+    box-shadow: 0 4px 10px rgba(233, 15, 153, 0.2);
+  }
+  
+  .addproduct-btn:hover {
+    background-color: #c20e83;
+    transform: translateY(-2px);
+  }
+  
+  /* Animacion i lehtë në hyrje */
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  .selecti {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    font-family: 'Segoe UI', sans-serif;
+    margin-bottom: 20px;
+    position: relative;
+    max-width: 250px;
+  }
+  
+  .selecti p {
+    margin: 0;
+    font-size: 14px;
+    font-weight: 600;
+    color: #cc2b84;
+  }
+  
+  .add-product-selector {
+    padding: 12px 14px;
+    font-size: 15px;
+    border-radius: 10px;
+    border: 1.5px solid #f3b4d3;
+    background-color: #fff6fb;
+    color: #0d0d0d;
+    appearance: none;
+    background-image: url("data:image/svg+xml;utf8,<svg fill='%23cc2b84' height='24' viewBox='0 0 24 24' width='24' xmlns='http://www.w3.org/2000/svg'><path d='M7 10l5 5 5-5z'/></svg>");
+    background-repeat: no-repeat;
+    background-position: right 12px center;
+    background-size: 18px;
+    cursor: pointer;
+  }
+  
+  .add-product-selector:focus {
+    border-color: #0c0c0c;
+    outline: none;
+    box-shadow: 0 0 5px rgba(164, 41, 119, 0.2);
+  }
+  
+  .add-product-selector option {
+    background-color: #fff0f5;
+    color: #090909;
+  }
+  

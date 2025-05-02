@@ -1,0 +1,148 @@
+/* List Product Styles */
+.list-product {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin-left: 320px; /* Ensure the sidebar doesn't overlap */
+    padding: 20px;
+    margin-top: 110px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Title */
+.list-product h1 {
+    font-size: 32px;
+    font-weight: 600;
+    color: #333;
+    text-align: center;
+    margin-bottom: 20px;
+    text-transform: uppercase;
+}
+
+/* Column Layout for Products */
+.listproduct-format-main {
+    display: grid;
+    grid-template-columns: 1fr 2fr 1fr 1fr 1fr 0.8fr;
+    grid-gap: 15px; /* Add more space between columns */
+    padding: 15px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    margin-bottom: 15px;
+    border: 1px solid #ddd; /* Add border to give the table-like appearance */
+}
+
+/* Column header styling */
+.listproduct-format-main p:nth-child(1),
+.listproduct-format-main p:nth-child(2),
+.listproduct-format-main p:nth-child(3),
+.listproduct-format-main p:nth-child(4),
+.listproduct-format-main p:nth-child(5) {
+    background-color: white; /* Remove background */
+    color: #333; /* Dark text color for titles */
+    font-weight: bold;
+    border-bottom: 2px solid #ddd; /* Add a line to separate header */
+    padding: 12px 10px; /* Increase padding for header */
+}
+
+/* Column content styling */
+.listproduct-format-main p {
+    margin: 0;
+    padding: 10px;
+    text-align: center;
+    font-size: 14px;
+    font-weight: 500;
+    color: #555;
+    background-color: #f1f1f1; /* Light background for product info */
+    border-radius: 6px;
+}
+
+/* Last column for actions (e.g., delete button) */
+.listproduct-format-main p:nth-child(6) {
+    border-radius: 6px;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+
+/* Product List */
+.listproduct-allproducts {
+    overflow-y: auto;
+    padding: 20px 0;
+}
+
+/* Product image styling */
+.listproduct-product-icon {
+    width: 50px;
+    height: 50px;
+    object-fit: cover;
+    border-radius: 5px;
+}
+
+/* Remove icon styling */
+.listproduct-remove-icon {
+  
+    margin: auto;
+    cursor: pointer;
+    transition: transform 0.3s ease, filter 0.3s ease;
+    filter: grayscale(100%);
+}
+
+.listproduct-remove-icon:hover {
+    transform: rotate(90deg) scale(1.2);
+    filter: none;
+}
+
+/* Responsivitet për ekranet më të vogla */
+
+/* 800px - Për tableta dhe ekrane më të vogla */
+@media (max-width: 800px) {
+    .list-product {
+        box-sizing: border-box;
+        width: 95%;
+        padding: 10px 30px;
+        margin: 20px auto;
+    }
+
+    .listproduct-format-main {
+        flex-wrap: wrap;
+        grid-template-columns: 1fr 2fr 1fr 1fr;  /* Adapt grid to smaller screens */
+    }
+
+    .listproduct-format-main p {
+        font-size: 12px;
+        padding: 10px;
+        width: auto;
+    }
+}
+
+/* 500px - Për celularët */
+@media (max-width: 500px) {
+    .list-product {
+        margin: 10px;
+    }
+
+    .listproduct-format-main {
+        flex-wrap: wrap;
+        justify-content: flex-start;  /* Keep items in row */
+        gap: 8px;
+    }
+
+    .listproduct-format-main p {
+        font-size: 11px;
+        padding: 8px;
+        width: auto;
+    }
+
+    .listproduct-product-icon {
+        width: 40px;
+        height: 40px;
+    }
+
+    .listproduct-remove-icon {
+        width: 18px;
+        height: 18px;
+    }
+}

@@ -1,3 +1,4 @@
+/* Navbar styles */
 .navbar {
   background-color: #ffffff;
   border-bottom: 1px solid #e0e0e0;
@@ -14,11 +15,13 @@
   height: 50px;
 }
 
+/* Logo */
 .nav-logo {
   width: 180px;
   cursor: pointer;
 }
 
+/* Profile Icon */
 .nav-profile {
   width: 65px;
   border-radius: 50%;
@@ -28,4 +31,14 @@
 
 .nav-profile:hover {
   transform: scale(1.05);
+}
+
+/* Add margin-top to the content below navbar */
+body {
+  margin-top: 50px; /* Adjust according to the height of navbar */
+}
+
+/* Optional: Adjust for other elements (if necessary) */
+.list-product, .add-product {
+  margin-top: 50px; /* Ensure there's space for navbar */
 }
