@@ -12,6 +12,7 @@ import About from './Pages/About.jsx';
 function App() {
   return (
     <BrowserRouter>
+
       <Navbar />
       <Routes>
         <Route path='/' element={<Home />} />
