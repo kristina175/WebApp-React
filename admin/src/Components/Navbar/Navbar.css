@@ -17,8 +17,15 @@
 
 /* Logo */
 .nav-logo {
-  width: 180px;
+  width: 60px;
   cursor: pointer;
+}
+.nav-title {
+  margin-left: 20px;
+  font-size: 1.8rem;
+  font-weight: bold;
+  color: #333;
+  flex-grow: 1; /* Kjo do ta vendosë h1 të majtë */
 }
 
 /* Profile Icon */
