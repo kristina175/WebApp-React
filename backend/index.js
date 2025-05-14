@@ -258,6 +258,40 @@ app.post('/getcart',fetchUser,async (req,res)=>{
   res.json(userData.cartData);
 
 })
+// Endpoint për checkout / ruajtje të porosisë
+const Order = mongoose.model("Order", {
+  name: String,
+  address: String,
+  email: String,
+  phone: String,
+  cartItems: Object,
+  totalAmount: Number,
+  date: { type: Date, default: Date.now },
+});
+
+app.post('/checkout', async (req, res) => {
+  try {
+    const order = new Order(req.body);
+    await order.save();
+    console.log("✅ Porosia u ruajt:", order);
+    res.json({ success: true, message: "Porosia u ruajt me sukses!" });
+  } catch (err) {
+    console.error("❌ Gabim në ruajtjen e porosisë:", err);
+    res.status(500).json({ success: false, message: "Gabim gjatë ruajtjes së porosisë", error: err.message });
+  }
+});
+
+//my orders
+app.get('/myorders', fetchUser, async (req, res) => {
+  try {
+    const orders = await Order.find({ userId: req.user.id }).sort({ date: -1 });
+    res.json(orders);
+  } catch (err) {
+    console.error("❌ Error fetching orders:", err);
+    res.status(500).json({ success: false, message: "Failed to get orders", error: err.message });
+  }
+});
+
 
 // Nis serverin
 app.listen(port, (error) => {
