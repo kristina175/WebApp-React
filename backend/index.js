@@ -102,6 +102,17 @@ app.get('/allproducts', async (req, res) => {
   res.send(products);
 });
 
+// Endpoint për të marrë të gjitha porositë
+app.get('/allorders', async (req, res) => {
+  try {
+    const orders = await Order.find({}).sort({ date: -1 });
+    res.json(orders);
+  } catch (err) {
+    console.error("❌ Gabim në marrjen e porosive:", err);
+    res.status(500).json({ success: false, message: "Gabim gjatë marrjes së porosive", error: err.message });
+  }
+});
+
 // Schema për përdorues
 const Users = mongoose.model('Users', {
   name: { type: String },
