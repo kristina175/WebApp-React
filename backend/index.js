@@ -7,6 +7,7 @@ const path = require("path");
 const cors = require("cors");
 const { use } = require("react");
 const port = 4000;
+const Stripe = require('stripe');
 
 app.use(express.json());
 app.use(cors());
@@ -302,7 +303,23 @@ app.get('/myorders', fetchUser, async (req, res) => {
     res.status(500).json({ success: false, message: "Failed to get orders", error: err.message });
   }
 });
+//Paymetn method
+const stripe = Stripe('sk_test_your_secret_key'); // Zëvendëso me çelësin real
 
+app.post('/create-payment-intent', async (req, res) => {
+  const { amount } = req.body;
+
+  try {
+    const paymentIntent = await stripe.paymentIntents.create({
+      amount: Math.round(amount * 100), // në cent
+      currency: 'usd',
+    });
+
+    res.send({ clientSecret: paymentIntent.client_secret });
+  } catch (err) {
+    res.status(500).send({ error: err.message });
+  }
+});
 
 // Nis serverin
 app.listen(port, (error) => {
