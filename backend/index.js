@@ -7,7 +7,8 @@ const path = require("path");
 const cors = require("cors");
 const { use } = require("react");
 const port = 4000;
-const Stripe = require('stripe');
+const Stripe = require("stripe");
+
 
 app.use(express.json());
 app.use(cors());
@@ -142,7 +143,7 @@ app.post('/signup', async (req, res) => {
 
   await user.save();
   const data = { user: { id: user.id } };
-  const token = jwt.sign(data, 'secret_ecom');
+  const token = jwt.sign(data, process.env.JWT_SECRET);
   res.json({ success: true, token });
 });
 
@@ -276,10 +277,18 @@ const Order = mongoose.model("Order", {
   address: String,
   email: String,
   phone: String,
-  cartItems: Object,
+  cartItems: [
+    {
+      productId: String,       
+      productName: String,    
+      quantity: Number,
+      shade: String
+    }
+  ],
   totalAmount: Number,
   date: { type: Date, default: Date.now },
 });
+
 
 app.post('/checkout', async (req, res) => {
   try {
@@ -303,24 +312,6 @@ app.get('/myorders', fetchUser, async (req, res) => {
     res.status(500).json({ success: false, message: "Failed to get orders", error: err.message });
   }
 });
-//Paymetn method
-const stripe = Stripe('sk_test_your_secret_key'); // Zëvendëso me çelësin real
-
-app.post('/create-payment-intent', async (req, res) => {
-  const { amount } = req.body;
-
-  try {
-    const paymentIntent = await stripe.paymentIntents.create({
-      amount: Math.round(amount * 100), // në cent
-      currency: 'usd',
-    });
-
-    res.send({ clientSecret: paymentIntent.client_secret });
-  } catch (err) {
-    res.status(500).send({ error: err.message });
-  }
-});
-
 // Nis serverin
 app.listen(port, (error) => {
   if (!error) {
