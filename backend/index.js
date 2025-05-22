@@ -6,8 +6,10 @@ const multer = require("multer");
 const path = require("path");
 const cors = require("cors");
 const dotenv = require("dotenv");
+const bcrypt = require("bcryptjs");
 
-dotenv.config(); // ngarkon .env
+
+dotenv.config(); 
 
 const port = process.env.PORT || 4000;
 
@@ -133,11 +135,13 @@ app.post('/signup', async (req, res) => {
   }
 
   let cart = {};
+  const salt = await bcrypt.genSalt(10);
+  const hashedPassword = await bcrypt.hash(req.body.password, salt);
 
   const user = new Users({
     name: req.body.username,
     email: req.body.email,
-    password: req.body.password,
+    password: hashedPassword,
     cartData: cart
   });
 
@@ -147,12 +151,13 @@ app.post('/signup', async (req, res) => {
   res.json({ success: true, token });
 });
 
+
 // Login përdorues
 // Login përdorues me rikthim të karrocës
 app.post('/login', async (req, res) => {
   let user = await Users.findOne({ email: req.body.email });
   if (user) {
-    const passCompare = req.body.password === user.password;
+    const passCompare = await bcrypt.compare(req.body.password, user.password);
     if (passCompare) {
       const data = { user: { id: user.id } };
       const token = jwt.sign(data, process.env.JWT_SECRET);
@@ -161,7 +166,7 @@ app.post('/login', async (req, res) => {
       res.json({
         success: true,
         token: token,
-        cartData: user.cartData // Rikthimi i karrocës
+        cartData: user.cartData 
       });
     } else {
       res.json({ success: false, errors: "Fjalëkalimi i gabuar!" });
@@ -205,66 +210,67 @@ app.get('/popularinface', async (req, res) => {
    }
 
 // Shto në cart (placeholder)
-app.post('/addtocart', fetchUser, async (req, res) => {
+app.post("/addtocart", fetchUser, async (req, res) => {
   try {
-    let userData = await Users.findOne({ _id: req.user.id });
+    const { productId, quantity = 1, shade = "" } = req.body;
 
-    // Kontrollo që produkti të ekzistojë
-    let product = await Product.findOne({ id: req.body.itemId });
-    if (!product) {
-      return res.status(404).json({ success: false, message: "Product not found!" });
+    if (!productId) {
+      return res.status(400).send({ message: "Mungon productId në body!" });
     }
 
-    // Shto 1 për produktin në cartData
-    if (userData.cartData[req.body.itemId]) {
-      userData.cartData[req.body.itemId] += 1;
+    const userId = req.user.id;
+    const userData = await Users.findById(userId);
+
+    if (!userData.cartData) {
+      userData.cartData = {};
+    }
+
+    // Shto artikullin në cartData si strukturë e thjeshtë
+    if (!userData.cartData[productId]) {
+      userData.cartData[productId] = { quantity, shade };
     } else {
-      userData.cartData[req.body.itemId] = 1;
+      userData.cartData[productId].quantity += quantity;
     }
 
-    // Përditëso cartData në bazën e të dhënave për përdoruesin
-    await Users.findOneAndUpdate({ _id: req.user.id }, { cartData: userData.cartData });
+    await userData.save();
 
-    res.json({ success: true, message: "Product added to cart!" });
-  } catch (err) {
-    console.error("❌ Gabim:", err);
-    res.status(500).json({ success: false, message: "Error adding to cart", error: err.message });
+    res.send({ message: "Produkti u shtua në shportë me sukses!" });
+  } catch (error) {
+    console.error("❌ Gabim në /addtocart:", error.message);
+    res.status(500).send({ message: "Gabim i brendshëm i serverit!" });
   }
 });
+
+
 //creating endpoint to remove product from cart data
-// Endpoint për heqjen e produktit nga cartData
+// Update the removefromcart endpoint to match frontend expectations
 app.post('/removefromcart', fetchUser, async (req, res) => {
   try {
     let userData = await Users.findOne({ _id: req.user.id });
+    const { productId, shade } = req.body;
 
     // Kontrollo që produkti të ekzistojë
-    let product = await Product.findOne({ id: req.body.itemId });
+    let product = await Product.findOne({ _id: productId });
     if (!product) {
       return res.status(404).json({ success: false, message: "Product not found!" });
     }
 
-    // Kontrollo nëse produkti është në cartData dhe hiq 1 nga sasia
-    if (userData.cartData[req.body.itemId] > 0) {
-      userData.cartData[req.body.itemId] -= 1;
+    // Përditëso cartData
+    if (userData.cartData[productId] > 0) {
+      userData.cartData[productId] -= 1;
       
-      // Nëse sasia bëhet 0, heq produktin nga cartData
-      if (userData.cartData[req.body.itemId] === 0) {
-        delete userData.cartData[req.body.itemId];
+      if (userData.cartData[productId] === 0) {
+        delete userData.cartData[productId];
       }
-    } else {
-      return res.status(400).json({ success: false, message: "Product not in cart!" });
     }
 
-    // Përditëso cartData në bazën e të dhënave për përdoruesin
     await Users.findOneAndUpdate({ _id: req.user.id }, { cartData: userData.cartData });
-
     res.json({ success: true, message: "Product removed from cart!" });
   } catch (err) {
     console.error("❌ Gabim:", err);
     res.status(500).json({ success: false, message: "Error removing product from cart", error: err.message });
   }
 });
-
 //creating endpoint to get carData
 app.post('/getcart',fetchUser,async (req,res)=>{
   console.log("GetCart");
