@@ -5,10 +5,11 @@ const jwt = require("jsonwebtoken");
 const multer = require("multer");
 const path = require("path");
 const cors = require("cors");
-const { use } = require("react");
-const port = 4000;
-const Stripe = require("stripe");
+const dotenv = require("dotenv");
 
+dotenv.config(); // ngarkon .env
+
+const port = process.env.PORT || 4000;
 
 app.use(express.json());
 app.use(cors());
@@ -132,7 +133,6 @@ app.post('/signup', async (req, res) => {
   }
 
   let cart = {};
-  for (let i = 0; i < 300; i++) cart[i] = 0;
 
   const user = new Users({
     name: req.body.username,
@@ -155,7 +155,8 @@ app.post('/login', async (req, res) => {
     const passCompare = req.body.password === user.password;
     if (passCompare) {
       const data = { user: { id: user.id } };
-      const token = jwt.sign(data, 'secret_ecom');
+      const token = jwt.sign(data, process.env.JWT_SECRET);
+
 
       res.json({
         success: true,
@@ -194,7 +195,7 @@ app.get('/popularinface', async (req, res) => {
        }
        else{
         try {
-          const data = jwt.verify(token,'secret_ecom');
+          const data = jwt.verify(token, process.env.JWT_SECRET);
           req.user = data.user;
           next();
         } catch (error) {

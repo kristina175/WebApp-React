@@ -71,14 +71,16 @@ const OrderList = () => {
                 <h4>🛍 Produktet:</h4>
                 <div className="order-products-array">
                   {Array.isArray(order.cartItems) ? order.cartItems.map((item, index) => {
-  const product = allProducts.find(p => p.id === item.productId || p._id === item.productId);
+  const product = allProducts.find(p => 
+    p._id === item.productId || p.id === item.productId
+  );
 
   return (
     <div key={index} className="order-product">
-      <p><strong>Emri:</strong> {item.productName}</p>
+      <p><strong>Emri:</strong> {product?.name || 'Produkti i panjohur'}</p>
       <p><strong>Sasia:</strong> {item.quantity}</p>
       <p><strong>Shade:</strong> {item.shade || '—'}</p>
-      {product && product.image && (
+      {product?.image && (
         <img
           src={product.image}
           alt={product.name}
@@ -88,6 +90,7 @@ const OrderList = () => {
     </div>
   );
 }) : <p>Nuk ka produkte në këtë porosi.</p>}
+
 
                 </div>
               </div>

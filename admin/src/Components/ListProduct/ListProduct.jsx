@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from 'react'  // Importoni useState gjithashtu
+import React, { useEffect, useState } from 'react'  
 import './ListProduct.css'
 import cross_icon from '../../assets/cross_icon.png'
 
 const ListProduct = () => {
-  const [allproducts, setAllProducts] = useState([]);  // Korrigjoni me useState
+  const [allproducts, setAllProducts] = useState([]);  
 
   const fetchInfo = async () => {
     await fetch('http://localhost:4000/allproducts')

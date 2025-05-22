@@ -11,7 +11,7 @@ const AddProduct = () => {
     new_price: "",
     old_price: "",
     description: "",
-    shades: "", // shades do të jenë të ndara me presje (p.sh. "Light,Medium,Dark")
+    shades: "", 
   });
 
   const imageHandler = (e) => {
